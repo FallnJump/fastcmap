@@ -200,12 +200,16 @@ There is a limitation that font size, etc. cannot be adjusted.
     cm=ColorRegend(52, 36, 59)
     # or use default.
     # cm=ColorRegend()
+    
     # a simple idmap.
     mp=np.arange(48)[None,...].repeat(32,axis=0)
+    
     # idmap to colormap
     q=cm.ids2color(mp)
+    
     # colormap to idmap
     inv=cm.color2ids(q)
+    
     # show 3 maps.
     plt.subplot(411).imshow(mp)
     plt.subplot(412).imshow(q)
@@ -237,12 +241,16 @@ the following usage is useful.
 
     # sample segmentation-label of coco-dataset.
     test_ann=[{'id': 5931152, 'category_id': 23, 'iscrowd': 0, 'bbox': [1, 69, 585, 564], 'area': 275827}, {'id': 3834981, 'category_id': 193, 'iscrowd': 0, 'bbox': [0, 0, 586, 421], 'area': 88715}]
+    
     # values of each instance.(first key must be "id"(color)).
     cckeys=["id", "category_id", "iscrowd", "area", None]
+    
     # generate ColorRegend from annotation.
     cn=fromAnnotation(test_ann, cckeys)
+    
     # Annotation labels can be obtained in dict format from ColorRegend.
     print("RW-test: ", cn.toAnnotation(cckeys))
+    
     # colormap --> valuesmap.
     inv=cm.color2ids(q)
 
