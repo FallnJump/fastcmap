@@ -2,6 +2,12 @@
 
 https://github.com/FallnJump/fastcmap
 
+## updates
+
+2023.2.11.  add ColorRegend and fromAnnotations
+ which is color-ids alternative converter(see following)..
+
+
 ## Overview
 
 a lightweight library that outputs the main colormaps that can be displayed by imshow in matplotlib.pyplot in numpy format at high speed. it may be more accurate to say that it is instantly usable rather than fast.
@@ -187,6 +193,59 @@ Result)
 <img src="imgs/samplemtx2.png">
 
 There is a limitation that font size, etc. cannot be adjusted.
+
+(4) (updated)Mutual conversion of a and b
+
+    # colormap from randomseed(idnum,seed1,seed2).
+    cm=ColorRegend(52, 36, 59)
+    # or use default.
+    # cm=ColorRegend()
+    # a simple idmap.
+    mp=np.arange(48)[None,...].repeat(32,axis=0)
+    # idmap to colormap
+    q=cm.ids2color(mp)
+    # colormap to idmap
+    inv=cm.color2ids(q)
+    # show 3 maps.
+    plt.subplot(411).imshow(mp)
+    plt.subplot(412).imshow(q)
+    plt.subplot(413).imshow(inv)
+    # show color-table
+    g=cm.makeColorTable(["TestLabel", "Foo"])
+    plt.subplot(414).imshow(g)
+    plt.show()
+
+Result)
+
+<img src="imgs/colorregend1.png">
+
+You can also specify the id corresponding to rgb directly.
+
+    ca=ColorRegend([[(87,76,65), 54], [[65,54,43], 32]])
+    # ColorRegend([(color, id),(color, id),...])
+
+If multiple ids are specified with a tuple, it will be converted to maps of multiple channels(hwc).
+
+    ca=ColorRegend([[(87,76,65), (54,56)], [[65,54,43], (32,66)]])
+    # if mp size is (32,32,3), this will convert mp to (32,32,2).
+    q=cm.ids2color(mp)
+    # revert q --> colormap.
+    mp_ = cm.color2ids(q)
+
+In the coco dataset, if you want to get a map of category_id from an image colored by instance, 
+the following usage is useful.
+
+    # sample segmentation-label of coco-dataset.
+    test_ann=[{'id': 5931152, 'category_id': 23, 'iscrowd': 0, 'bbox': [1, 69, 585, 564], 'area': 275827}, {'id': 3834981, 'category_id': 193, 'iscrowd': 0, 'bbox': [0, 0, 586, 421], 'area': 88715}]
+    # values of each instance.(first key must be "id"(color)).
+    cckeys=["id", "category_id", "iscrowd", "area", None]
+    # generate ColorRegend from annotation.
+    cn=fromAnnotation(test_ann, cckeys)
+    # Annotation labels can be obtained in dict format from ColorRegend.
+    print("RW-test: ", cn.toAnnotation(cckeys))
+    # colormap --> valuesmap.
+    inv=cm.color2ids(q)
+
 
 ### Comparison with matplotlib
 
