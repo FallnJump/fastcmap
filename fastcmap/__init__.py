@@ -2,12 +2,15 @@ if __name__=="__main__":
     from map_linedata import data as _default_data
     from base import createGradMap, ColorMap as BaseColorMap
     from confusematrix import makeConfuseMatrix as _makeConfuseMatrix
+    from segmentation import ColorRegend, fromAnnotation
 else:
     from .map_linedata import data as _default_data
     from .base import createGradMap, ColorMap as BaseColorMap
     from .confusematrix import makeConfuseMatrix as _makeConfuseMatrix
+    from .segmentation import ColorRegend, fromAnnotation
 
-__version__ = "0.0.1"
+
+__version__ = "0.0.2"
 
 
 class ColorMap(BaseColorMap):
@@ -43,5 +46,10 @@ if __name__=="__main__":
     print([k for k in cmp.dict])
     import matplotlib.pyplot as plt
     #plt.imshow(cmp.createColormap("utt"))
-    plt.imshow(im)
+    plt.subplot(211).imshow(im)
+    # test maps.
+    u=ColorRegend()
+    iim=createGradMap()*20
+    q=u.ids2color(iim.astype(int))
+    plt.subplot(212).imshow(q)
     plt.show()
