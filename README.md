@@ -194,7 +194,7 @@ Result)
 
 There is a limitation that font size, etc. cannot be adjusted.
 
-(4) (updated)Mutual conversion of a and b
+(4) (updated)Mutual conversion of colormap and idmap
 
     # colormap from randomseed(idnum,seed1,seed2).
     cm=ColorRegend(52, 36, 59)
