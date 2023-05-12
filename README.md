@@ -58,7 +58,7 @@ numpy, pillow
     
     cmap=fastcmap.ColorMap()
     im=np.linspace(0,1,256)[None,:].repeat(256, axis=0)
-    im=cmap.getColorMap(im, cmap="jet")
+    im=cmap.getColormap(im, cmap="jet")
     import cv2
     cv2.imwrite("sample2.png", im)
 
